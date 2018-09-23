@@ -1,0 +1,1 @@
+*/15 * * * * nextcloud  /usr/bin/php -f /srv/www/cron.php

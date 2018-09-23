@@ -1,0 +1,5 @@
+#!/bin/bash
+
+source /run_as
+
+su $RUN_AS -c "/usr/bin/php -f /srv/www/occ $*"
