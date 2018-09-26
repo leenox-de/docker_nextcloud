@@ -28,3 +28,28 @@ https://github.com/jwilder/docker-gen
 and
 https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion
 In order to get your nextcloud behind a https connection.
+
+```yaml
+  nextcloud:
+    image: junkdna/nextcloud:latest
+    container_name: nextcloud
+    #restart: always
+    networks:
+      - nginx-proxy
+    links:
+      - mysql
+      - redis
+    volumes:
+      - /volumes/nextcloud/data:/srv/data
+      - /volumes/nextcloud/config:/srv/www/config
+      - /volumes/nextcloud/userapps:/srv/www/userapps
+      - /dev/log:/dev/log
+      - /var/run/systemd/journal/socket:/var/run/systemd/journal/socket
+      - /etc/passwd:/etc/passwd:ro
+      - /etc/group:/etc/group:ro
+    environment:
+      - VIRTUAL_NETWORK=nginx-proxy
+      - VIRTUAL_HOST=nextcloud.example.com
+      - LETSENCRYPT_HOST=nextcloud.example.com
+      - LETSENCRYPT_EMAIL=root@example.com
+```
