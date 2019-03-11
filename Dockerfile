@@ -1,6 +1,6 @@
 FROM ubuntu:bionic
 MAINTAINER Tillmann Heidsieck <theidsieck@leenox.de>
-ARG NEXTCLOUD_VERSION=15.0.4
+ARG NEXTCLOUD_VERSION=15.0.5
 EXPOSE 80
 
 #DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -yqq && \
