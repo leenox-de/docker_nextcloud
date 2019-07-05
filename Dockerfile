@@ -1,6 +1,6 @@
 FROM ubuntu:bionic
 MAINTAINER Tillmann Heidsieck <theidsieck@leenox.de>
-ARG NEXTCLOUD_VERSION=15.0.9
+ARG NEXTCLOUD_VERSION=16.0.2
 EXPOSE 80
 
 VOLUME /srv/data /srv/www/config /srv/www/userapps
