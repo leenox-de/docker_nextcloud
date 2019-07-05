@@ -18,7 +18,7 @@ sed -e "s/user \+nginx;/user $RUN_AS;/" -i /etc/nginx/nginx.conf
 #chown -R $RUN_AS.$RUN_AS /srv
 find /srv \! -user $RUN_AS -print | xargs chown $RUN_AS.$RUN_AS_GROUP
 
-if [[ -f /srv/config/config.php ]]; then
+if [[ -f /srv/www/config/config.php ]]; then
 	/usr/bin/occ upgrade
 	if [[ $? -ne 0  && $? -ne 3 ]]; then
 		echo "Trying ownCloud upgrade again to work around ownCloud upgrade bug..."
