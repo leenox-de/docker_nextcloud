@@ -3,6 +3,8 @@ MAINTAINER Tillmann Heidsieck <theidsieck@leenox.de>
 ARG NEXTCLOUD_VERSION=15.0.9
 EXPOSE 80
 
+VOLUME /srv/data /srv/www/config /srv/www/userapps
+
 #DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -yqq && \
 RUN apt-get update 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -yqq \
