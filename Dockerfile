@@ -53,7 +53,8 @@ RUN curl https://download.nextcloud.com/server/releases/nextcloud-${NEXTCLOUD_VE
 
 RUN gpg --import /nextcloud.asc
 RUN gpg --verify /nextcloud.tar.bz2.asc
-RUN rm -rf /srv/www && mkdir -p /srv/www
-RUN tar -xjf nextcloud.tar.bz2 && mv nextcloud/* /srv/www && chown -R nextcloud.nextcloud /srv/www
+
+RUN rm -rf /srv/www
+RUN tar -xjf nextcloud.tar.bz2 && mv nextcloud && chown -R nextcloud.nextcloud /srv/www
 
 ENTRYPOINT ["/usr/bin/run.sh"]
