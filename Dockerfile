@@ -1,6 +1,6 @@
 FROM ubuntu:bionic
 MAINTAINER Tillmann Heidsieck <theidsieck@leenox.de>
-ARG NEXTCLOUD_VERSION=17.0.2
+ARG NEXTCLOUD_VERSION=18.0.0
 EXPOSE 80
 
 #DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -yqq && \
@@ -54,7 +54,8 @@ RUN curl https://download.nextcloud.com/server/releases/nextcloud-${NEXTCLOUD_VE
 RUN gpg --import /nextcloud.asc
 RUN gpg --verify /nextcloud.tar.bz2.asc
 
-RUN rm -rf /srv/www
-RUN tar -xjf nextcloud.tar.bz2 && mv nextcloud /srv/www && chown -R nextcloud.nextcloud /srv/www
+VOLUME ["/srv/www", "/srv/www/config", "/srv/data", "/srv/userapps"]
+
+RUN find /srv/www -maxdepth 1 -name config -prune -o -name userapps -prune -o -print | xargs rm -rf; tar -xjf nextcloud.tar.bz2 --strip-components=1 --owner=nextcloud --group=nextcloud -C /srv/www
 
 ENTRYPOINT ["/usr/bin/run.sh"]
