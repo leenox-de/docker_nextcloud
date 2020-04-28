@@ -16,7 +16,12 @@ sed -e "s/www-data/$RUN_AS/g" -i /etc/php/7.2/fpm/pool.d/www.conf
 sed -e "s/user \+nginx;/user $RUN_AS;/" -i /etc/nginx/nginx.conf
 
 #chown -R $RUN_AS.$RUN_AS /srv
-find /srv \! -user $RUN_AS -print | xargs chown $RUN_AS.$RUN_AS_GROUP
+while read a; do
+	rm -rf /srv/www/$a
+done <<< $(ls /srv/www | grep -Ev '(config|userapps)')
+
+tar -xjf nextcloud.tar.bz2 --strip-components=1 --owner=nextcloud --group=nextcloud -C /srv/www
+chown -R $RUN_AS.$RUN_AS_GROUP /srv
 
 if [[ -f /srv/www/config/config.php ]]; then
 	/usr/bin/occ upgrade
