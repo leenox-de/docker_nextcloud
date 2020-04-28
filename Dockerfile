@@ -56,6 +56,4 @@ RUN gpg --verify /nextcloud.tar.bz2.asc
 
 VOLUME ["/srv/www", "/srv/www/config", "/srv/data", "/srv/userapps"]
 
-RUN find /srv/www -maxdepth 1 -name config -prune -o -name userapps -prune -o -print | xargs rm -rf; tar -xjf nextcloud.tar.bz2 --strip-components=1 --owner=nextcloud --group=nextcloud -C /srv/www
-
 ENTRYPOINT ["/usr/bin/run.sh"]
