@@ -1,6 +1,6 @@
-FROM ubuntu:bionic
+FROM ubuntu:focal
 MAINTAINER Tillmann Heidsieck <theidsieck@leenox.de>
-ARG NEXTCLOUD_VERSION=18.0.4
+ARG NEXTCLOUD_VERSION=19.0.0
 EXPOSE 80
 
 #DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -yqq && \
@@ -11,6 +11,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -yqq \
 	cron \
 	gnupg \
 	php-apcu \
+	php-bcmath \
 	php-cli \
 	php-curl \
 	php-dompdf \
@@ -43,8 +44,8 @@ COPY crontab /etc/
 COPY nginx.conf /etc/nginx/
 COPY occ /usr/bin/
 COPY run.sh /usr/bin/
-COPY www.conf /etc/php/7.2/fpm/pool.d/
-COPY php.ini /etc/php/7.2/fpm/
+COPY www.conf /etc/php/7.4/fpm/pool.d/
+COPY php.ini /etc/php/7.4/fpm/
 
 RUN mkdir -p /run/php && chown nextcloud.nextcloud /run/php
 
@@ -54,6 +55,8 @@ RUN curl https://download.nextcloud.com/server/releases/nextcloud-${NEXTCLOUD_VE
 RUN gpg --import /nextcloud.asc
 RUN gpg --verify /nextcloud.tar.bz2.asc
 
-VOLUME ["/srv/www", "/srv/www/config", "/srv/data", "/srv/userapps"]
+RUN mkdir -p /srv/www && tar -xjf /nextcloud.tar.bz2 --strip-components=1 --owner=nextcloud --group=nextcloud -C /srv/www
+
+VOLUME ["/srv/www", "/srv/data"]
 
 ENTRYPOINT ["/usr/bin/run.sh"]
